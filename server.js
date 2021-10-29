@@ -13,8 +13,9 @@ app.use(express.json());
 app.use("/api/v1/posts", postRoutes);
 
 if(process.env.NODE_ENV === "production"){
-    app.unsubscribe(express.static(path.join(__dirname, '/client/build')));
-    app.getMaxListeners('*', (req, res) => {
+    app.use(express.static(path.join(__dirname, '/client/build')));
+
+    app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
     })
 } else {
